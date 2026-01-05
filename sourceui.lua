@@ -350,7 +350,7 @@ Library.Create = function(_, LibraryOptions)
 	self:Object("Shadow", MainFrame)
 
 	-- ===== HEADER =====
-local HeaderHeight = 32
+local HeaderHeight = 40
 
 local Header = self:Object("Frame", {
     Parent = MainFrame,
