@@ -257,63 +257,6 @@ local TI = function(Time)
 	return TweenInfo.new(Time, Enum.EasingStyle.Linear, Enum.EasingDirection.Out)
 end
 
---linoria's dragger
-local AddDragger = function(Frame)
-	local S, Event = pcall(function()
-		return Frame.MouseEnter
-	end)
-
-	if S then
-		Frame.Active = true;
-
-		Event:connect(function()
-			local Input = Frame.InputBegan:connect(function(Key)
-				if Key.UserInputType == Enum.UserInputType.MouseButton1 then
-					local ObjectPosition = Vector2.new(Mouse.X - Frame.AbsolutePosition.X, Mouse.Y - Frame.AbsolutePosition.Y)
-					while RS.RenderStepped:wait() and UIS:IsMouseButtonPressed(Enum.UserInputType.MouseButton1) do
-						Frame:TweenPosition(UDim2.new(0, Mouse.X - ObjectPosition.X + (Frame.Size.X.Offset * Frame.AnchorPoint.X), 0, Mouse.Y - ObjectPosition.Y + (Frame.Size.Y.Offset * Frame.AnchorPoint.Y)), 'Out', 'Quad', 0.06, true)
-					end
-				end
-			end)
-
-			local Leave
-			Leave = Frame.MouseLeave:connect(function()
-				Input:disconnect()
-				Leave:disconnect()
-			end)
-		end)
-	end
-end
-
-Library.Create = function(_, LibraryOptions)
-	local self = Library
-
-	self.Dropdowns = {}
-	self.ColourPickers = {}
-	LibraryOptions = LibraryOptions or {}
-	LibraryOptions.Theme = LibraryOptions.Theme or "Dark"
-	LibraryOptions.Name = LibraryOptions.Name or "UI Library"
-	LibraryOptions.Size = LibraryOptions.Size or UDim2.new(0, 555, 0, 400)
-	LibraryOptions.Developer = LibraryOptions.Developer or false
-
-	local Theme = Themes[LibraryOptions.Theme] or Themes["Dark"]
-
-	local Gui = self:Object("ScreenGui", {
-		Name = "UILibrary",
-		Parent = (RS:IsStudio() and Player.PlayerGui) or game.CoreGui
-	})
-
-	local MainFrame = self:Object("Frame", {
-		Name = "MainFrame",
-		Parent = Gui,
-		AnchorPoint = Vector2.new(0.5, 0.5),
-		BackgroundTransparency = 1,
-		Position = UDim2.new(0.5, 0, 0.5, 0),
-		Size = UDim2.new(0, 0, 0, 0)
-	})
-
-	AddHeaderDragger(Header, MainFrame)
-
 local AddHeaderDragger = function(DragFrame, MoveFrame)
     DragFrame.Active = true
 
@@ -345,6 +288,37 @@ local AddHeaderDragger = function(DragFrame, MoveFrame)
         end
     end)
 end
+
+Library.Create = function(_, LibraryOptions)
+	local self = Library
+
+	self.Dropdowns = {}
+	self.ColourPickers = {}
+	LibraryOptions = LibraryOptions or {}
+	LibraryOptions.Theme = LibraryOptions.Theme or "Dark"
+	LibraryOptions.Name = LibraryOptions.Name or "UI Library"
+	LibraryOptions.Size = LibraryOptions.Size or UDim2.new(0, 555, 0, 400)
+	LibraryOptions.Developer = LibraryOptions.Developer or false
+
+	local Theme = Themes[LibraryOptions.Theme] or Themes["Dark"]
+
+	local Gui = self:Object("ScreenGui", {
+		Name = "UILibrary",
+		Parent = (RS:IsStudio() and Player.PlayerGui) or game.CoreGui
+	})
+
+	local MainFrame = self:Object("Frame", {
+		Name = "MainFrame",
+		Parent = Gui,
+		AnchorPoint = Vector2.new(0.5, 0.5),
+		BackgroundTransparency = 1,
+		Position = UDim2.new(0.5, 0, 0.5, 0),
+		Size = UDim2.new(0, 0, 0, 0)
+	})
+
+	AddHeaderDragger(Header, MainFrame)
+
+
 
 
 	self:Object("Shadow", MainFrame)
