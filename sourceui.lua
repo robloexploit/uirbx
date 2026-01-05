@@ -3,11 +3,6 @@ local Library = {Count = 0, Tab = nil}
 
 local Themes = {
 	Light = {
-		HeaderBackground = Color3.fromRGB(20, 20, 20),
-HeaderText = Color3.fromRGB(255, 255, 255),
-HeaderButtonHover = Color3.fromRGB(60, 60, 60),
-HeaderButtonClose = Color3.fromRGB(200, 60, 60),
-
 		Main = Color3.fromRGB(190, 190, 190),
 		TabsBackground = Color3.fromRGB(54, 57, 63),
 		ScrollBar = Color3.fromRGB(50, 50, 50),
@@ -46,11 +41,6 @@ HeaderButtonClose = Color3.fromRGB(200, 60, 60),
 		BoxPlaceholder = Color3.fromRGB(225, 225, 225)
 	},
 	Red = {
-		HeaderBackground = Color3.fromRGB(20, 20, 20),
-HeaderText = Color3.fromRGB(255, 255, 255),
-HeaderButtonHover = Color3.fromRGB(60, 60, 60),
-HeaderButtonClose = Color3.fromRGB(200, 60, 60),
-
     Main = Color3.fromRGB(130, 30, 30),
     TabsBackground = Color3.fromRGB(122, 22, 22),
     ScrollBar = Color3.fromRGB(250, 150, 150),
@@ -89,11 +79,6 @@ HeaderButtonClose = Color3.fromRGB(200, 60, 60),
     BoxPlaceholder = Color3.fromRGB(245, 225, 225)
 },
 	Discord = {
-		HeaderBackground = Color3.fromRGB(20, 20, 20),
-HeaderText = Color3.fromRGB(255, 255, 255),
-HeaderButtonHover = Color3.fromRGB(60, 60, 60),
-HeaderButtonClose = Color3.fromRGB(200, 60, 60),
-
     Main = Color3.fromRGB(54, 57, 63),
     TabsBackground = Color3.fromRGB(47, 49, 54),
     ScrollBar = Color3.fromRGB(54, 57, 63),
@@ -132,11 +117,6 @@ HeaderButtonClose = Color3.fromRGB(200, 60, 60),
     BoxPlaceholder = Color3.fromRGB(225, 225, 225)
 },
 	Dark = {
-		HeaderBackground = Color3.fromRGB(20, 20, 20),
-HeaderText = Color3.fromRGB(255, 255, 255),
-HeaderButtonHover = Color3.fromRGB(60, 60, 60),
-HeaderButtonClose = Color3.fromRGB(200, 60, 60),
-
 		Main = Color3.fromRGB(30, 30, 30),
 		TabsBackground = Color3.fromRGB(22, 22, 22),
 		ScrollBar = Color3.fromRGB(150, 150, 150),
@@ -285,39 +265,6 @@ local AddDragger = function(Frame)
 	end
 end
 
-local AddHeaderDragger = function(DragFrame, MoveFrame)
-    DragFrame.Active = true
-
-    DragFrame.InputBegan:Connect(function(input)
-        if input.UserInputType == Enum.UserInputType.MouseButton1 then
-            local startMouse = input.Position
-            local startPos = MoveFrame.Position
-
-            local moveConn
-            moveConn = UIS.InputChanged:Connect(function(input2)
-                if input2.UserInputType == Enum.UserInputType.MouseMovement then
-                    local delta = input2.Position - startMouse
-                    MoveFrame.Position = UDim2.new(
-                        startPos.X.Scale,
-                        startPos.X.Offset + delta.X,
-                        startPos.Y.Scale,
-                        startPos.Y.Offset + delta.Y
-                    )
-                end
-            end)
-
-            local endConn
-            endConn = UIS.InputEnded:Connect(function(input3)
-                if input3.UserInputType == Enum.UserInputType.MouseButton1 then
-                    moveConn:Disconnect()
-                    endConn:Disconnect()
-                end
-            end)
-        end
-    end)
-end
-
-
 Library.Create = function(_, LibraryOptions)
 	local self = Library
 
@@ -345,99 +292,14 @@ Library.Create = function(_, LibraryOptions)
 		Size = UDim2.new(0, 0, 0, 0)
 	})
 
-	local MainPadding = self:Object("UIPadding", {
-    Parent = MainFrame,
-    PaddingTop = UDim.new(0, HeaderHeight),
-    PaddingLeft = UDim.new(0, 0),
-    PaddingRight = UDim.new(0, 0),
-    PaddingBottom = UDim.new(0, 0)
-})
-
+	AddDragger(MainFrame)
 
 	self:Object("Shadow", MainFrame)
-
-	-- ===== HEADER =====
-local HeaderHeight = 32
-Header.Position = UDim2.new(0, 0, 0, -HeaderHeight)
-
-local Header = self:Object("Frame", {
-    Parent = MainFrame,
-    Name = "Header",
-    Size = UDim2.new(1, 0, 0, HeaderHeight),
-    BackgroundColor3 = Theme.HeaderBackground,
-    BorderSizePixel = 0,
-    ZIndex = 5
-})
-
-self:Object("Round", Header)
-
--- DRAG HEADER → GERAKKAN MAINFRAME
-AddHeaderDragger(Header, MainFrame)
-
-
--- DRAG DARI HEADER (LEBIH NATURAL)
-
-local Title = self:Object("TextLabel", {
-    Parent = Header,
-    BackgroundTransparency = 1,
-    Text = LibraryOptions.Name,
-    Font = Enum.Font.SourceSansSemibold,
-    TextSize = 16,
-    TextColor3 = Theme.HeaderText,
-    Size = UDim2.new(1, -90, 1, 0),
-    Position = UDim2.new(0, 10, 0, 0),
-    TextXAlignment = Enum.TextXAlignment.Left,
-    ZIndex = 6
-})
-local Minimize = self:Object("TextButton", {
-    Parent = Header,
-    Text = "–",
-    Font = Enum.Font.SourceSansBold,
-    TextSize = 20,
-    TextColor3 = Theme.HeaderText,
-    Size = UDim2.new(0, 32, 1, 0),
-    Position = UDim2.new(1, -64, 0, 0),
-    BackgroundTransparency = 1,
-    ZIndex = 6
-})
-local Close = self:Object("TextButton", {
-    Parent = Header,
-    Text = "X",
-    Font = Enum.Font.SourceSansBold,
-    TextSize = 16,
-    TextColor3 = Theme.HeaderText,
-    Size = UDim2.new(0, 32, 1, 0),
-    Position = UDim2.new(1, -32, 0, 0),
-    BackgroundTransparency = 1,
-    ZIndex = 6
-})
-local Minimized = false
-local FullSize = LibraryOptions.Size
-
-Minimize.MouseButton1Click:Connect(function()
-    Minimized = not Minimized
-
-    if Minimized then
-        TS:Create(MainFrame, TI(0.2), {
-            Size = UDim2.new(FullSize.X.Scale, FullSize.X.Offset, 0, HeaderHeight)
-        }):Play()
-    else
-        TS:Create(MainFrame, TI(0.2), {
-            Size = FullSize
-        }):Play()
-    end
-end)
-
-Close.MouseButton1Click:Connect(function()
-    Gui:Destroy()
-end)
-
 
 	local OptionsContainer = self:Object("Frame", {
 		Name = "OptionsContainer",
 		Parent = MainFrame,
 		Position = UDim2.new(0, 100, 0, 0),
-
 		Size = UDim2.new(1, -100, 1, 0),
 		BackgroundColor3 = Theme.Main,
 		BorderSizePixel = 0
@@ -463,11 +325,7 @@ end)
 		Name = "Tabs",
 		Parent = MainFrame,
 		BackgroundColor3 = Theme.TabsBackground,
-		
-			Position = UDim2.new(0, 0, 0, 0)
-Size = UDim2.new(1, 0, 1, 0)
-
-
+		Size = UDim2.new(1, 0, 1, 0),
 		ZIndex = 2
 	})
 
