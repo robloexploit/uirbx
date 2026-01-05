@@ -345,14 +345,20 @@ Library.Create = function(_, LibraryOptions)
 		Size = UDim2.new(0, 0, 0, 0)
 	})
 
-	
+	local MainPadding = self:Object("UIPadding", {
+    Parent = MainFrame,
+    PaddingTop = UDim.new(0, HeaderHeight),
+    PaddingLeft = UDim.new(0, 0),
+    PaddingRight = UDim.new(0, 0),
+    PaddingBottom = UDim.new(0, 0)
+})
+
 
 	self:Object("Shadow", MainFrame)
 
 	-- ===== HEADER =====
-local HeaderHeight = 40
-local HeaderPadding = 6
-	Position = UDim2.new(0, 100, 0, HeaderHeight + HeaderPadding)
+local HeaderHeight = 32
+Header.Position = UDim2.new(0, 0, 0, -HeaderHeight)
 
 local Header = self:Object("Frame", {
     Parent = MainFrame,
@@ -457,8 +463,10 @@ end)
 		Name = "Tabs",
 		Parent = MainFrame,
 		BackgroundColor3 = Theme.TabsBackground,
-		Size = UDim2.new(1, 0, 1, -HeaderHeight),
-Position = UDim2.new(0, 0, 0, HeaderHeight),
+		
+			Position = UDim2.new(0, 0, 0, 0)
+Size = UDim2.new(1, 0, 1, 0)
+
 
 		ZIndex = 2
 	})
