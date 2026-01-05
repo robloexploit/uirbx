@@ -351,6 +351,8 @@ Library.Create = function(_, LibraryOptions)
 
 	-- ===== HEADER =====
 local HeaderHeight = 40
+local HeaderPadding = 6
+	Position = UDim2.new(0, 100, 0, HeaderHeight + HeaderPadding)
 
 local Header = self:Object("Frame", {
     Parent = MainFrame,
