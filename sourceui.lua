@@ -312,6 +312,40 @@ Library.Create = function(_, LibraryOptions)
 		Size = UDim2.new(0, 0, 0, 0)
 	})
 
+	AddHeaderDragger(Header, MainFrame)
+
+local AddHeaderDragger = function(DragFrame, MoveFrame)
+    DragFrame.Active = true
+
+    DragFrame.InputBegan:Connect(function(input)
+        if input.UserInputType == Enum.UserInputType.MouseButton1 then
+            local startPos = input.Position
+            local startFramePos = MoveFrame.Position
+
+            local moveConn
+            moveConn = UIS.InputChanged:Connect(function(inputChanged)
+                if inputChanged.UserInputType == Enum.UserInputType.MouseMovement then
+                    local delta = inputChanged.Position - startPos
+                    MoveFrame.Position = UDim2.new(
+                        startFramePos.X.Scale,
+                        startFramePos.X.Offset + delta.X,
+                        startFramePos.Y.Scale,
+                        startFramePos.Y.Offset + delta.Y
+                    )
+                end
+            end)
+
+            local endConn
+            endConn = UIS.InputEnded:Connect(function(endInput)
+                if endInput.UserInputType == Enum.UserInputType.MouseButton1 then
+                    moveConn:Disconnect()
+                    endConn:Disconnect()
+                end
+            end)
+        end
+    end)
+end
+
 
 	self:Object("Shadow", MainFrame)
 
