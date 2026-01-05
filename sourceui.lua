@@ -312,7 +312,6 @@ Library.Create = function(_, LibraryOptions)
 		Size = UDim2.new(0, 0, 0, 0)
 	})
 
-	AddDragger(MainFrame)
 
 	self:Object("Shadow", MainFrame)
 
